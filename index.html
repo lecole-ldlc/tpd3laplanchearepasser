@@ -4,93 +4,136 @@
     <meta charset="UTF-8">
     <title>Coucou</title>
     <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 
- <style>
+<style>
 
-.axis .domain {
-  display: none;
-}
+    .axis .domain {
+        display: none;
+    }
 </style>
 <body>
 
 <H1>Coucoucou</H1>
 <p>la truie remonte le ruisseau pas à pas</p>
+<div id="option">
+    <select id="dataset" type='select' onchange='updateData(value);' style='color:steelblue;font-size:1.1em;'>
+        <option value='data_task_10.csv' name='10' selected='true'>dix</option>
+        <option value='data_task_100.csv' name='100'>cent</option>
+        <option value='data_task_1000.csv' name='1000'>mille</option>
+    </select>
+</div>
+<div id="user">
+    <select id="data_user" type='select' onchange='updateData(value(who));' style='color:steelblue;font-size:1.1em;'>
+        <option value='Mike' name='10' selected='true'>miké</option>
+        <option value='Joe' name='100'>LE JOE</option>
+        <option value='Natasha' name='1000'>xXnatashaXx</option>
+    </select>
+</div>
 <img src="https://media.tenor.com/images/e923eac063a9277848717819b9e85101/tenor.gif" width="50" height="50">
 
 
-<svg width="960" height="500"></svg>
+<svg id="barchart1" width="960" height="500"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
-		// Chart initialization
-  	var svg = d3.select("svg"),
-    margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom,
-    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + 	margin.top + ")");
 
-  	// X axis
-    var x = d3.scaleBand()
-      .rangeRound([0, width])
-      .paddingInner(0.1);
+    function refresh_charts(){
+        $('#barchart1').html('');
+        d3.csv($("#dataset").val(), function (data) {
+            // Filter data by user ()
+            draw_bar_chart(data, '#barchart1');
+        });
+    }
+    function updateData(value) {
+        console.log(value);
+        // Filter data by user
 
-  	// y axis
-    var y = d3.scaleLinear()
-      .rangeRound([height, 0]);
+        refresh_charts();
+    }
 
-  	//load data
-    d3.csv("data_task_100.csv", function(data){
-     	//console.log(data);
+    function draw_bar_chart(data, element) {
+        // Chart initialization
+        console.log(d3.select(element));
+        var svg = d3.select(element),
+            margin = {top: 20, right: 20, bottom: 30, left: 40},
+            width = +svg.attr("width") - margin.left - margin.right,
+            height = +svg.attr("height") - margin.top - margin.bottom,
+            g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      // Group by status
-      var nested_data = d3.nest()
-				.key(function(d) { return d.status; })
-				.entries(data);
+        // X axis
+        var x = d3.scaleBand()
+            .rangeRound([0, width])
+            .paddingInner(0.1);
 
-      //console.log(nested_data);
+        // y axis
+        var y = d3.scaleLinear()
+            .rangeRound([height, 0]);
 
-      // Color scale
-      var z = d3.scaleOrdinal(d3.schemeCategory10);
+        // Group by status
+        var nested_data = d3.nest()
+            .key(function (d) {
+                return d.status;
+            })
+            .entries(data);
 
-      // Set domains of axes scales
-      x.domain(nested_data.map(function(d) { return d.key; }));
-      y.domain([0, d3.max(nested_data, function(d) { return d.values.length; })]);
-      z.domain(nested_data.map(function(d) { return d.key; }))
+        //console.log(nested_data);
 
-      // Draw rect
-      g.selectAll("rect")
-    	.data(nested_data)
-    	.enter().append("rect")
-      .attr("x", function(d) { return x(d.key); })
-      .attr("y", function(d) { return y(d.values.length); })
-      .attr("height", function(d) { return height - y(d.values.length);})
-      .attr("width", x.bandwidth())
-      //.attr("fill", "red")
-      .attr("fill", function(d,i) { return z(d.key); })
+        // Color scale
+        var z = d3.scaleOrdinal(d3.schemeCategory10);
 
-      // Draw x axis
-      g.append("g")
-      .attr("class", "axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+        // Set domains of axes scales
+        x.domain(nested_data.map(function (d) {
+            return d.key;
+        }));
+        y.domain([0, d3.max(nested_data, function (d) {
+            return d.values.length;
+        })]);
+        z.domain(nested_data.map(function (d) {
+            return d.key;
+        }))
 
-      // Draw y axis
-  		g.append("g")
-      	.attr("class", "axis")
-      	.call(d3.axisLeft(y).ticks(null, "s"))
+        // Draw rect
+        g.selectAll("rect")
+            .data(nested_data)
+            .enter().append("rect")
+            .attr("x", function (d) {
+                return x(d.key);
+            })
+            .attr("y", function (d) {
+                return y(d.values.length);
+            })
+            .attr("height", function (d) {
+                return height - y(d.values.length);
+            })
+            .attr("width", x.bandwidth())
+            //.attr("fill", "red")
+            .attr("fill", function (d, i) {
+                return z(d.key);
+            })
 
+        // Draw x axis
+        g.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
 
+        // Draw y axis
+        g.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(null, "s"))
+    }
 
+    $(function(){
+        refresh_charts();
     });
-
-  </script>
+</script>
 </body>
 </html>
