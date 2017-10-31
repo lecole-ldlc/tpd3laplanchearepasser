@@ -49,15 +49,14 @@
 
     function refresh_charts() {
         $('#barchart1').html('');
-        var selected_user = $("#data_user").val();
-        d3.csv($("#dataset").val(), function (data) {
-            dataf = [];
-            dataf.forEach(function (d) {
-                if (d.who == selected_user || selected_user == "All") {
-                    data.push(d);
-                }
-            });
 
+        d3.csv($("#dataset").val(), function (row) {
+            var selected_user = $("#data_user").val();
+            if (row.who == selected_user || selected_user == "All") {
+                return row;
+            }
+        }, function (data) {
+            console.log(data);
             draw_bar_chart(data, '#barchart1');
             draw_bar_chart(data, '#barchart2');
         });
