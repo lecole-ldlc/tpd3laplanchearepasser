@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Coucou</title>
+    <title>La Planche à Repasser</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -12,37 +12,25 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+
 </head>
-
-<style>
-
-form {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-svg {
-  font: 10px sans-serif;
-}
-.legend {
-    font-size: 12px;
-  }
-  rect {
-    stroke-width: 2;
-  }
-</style>
 <body>
 <H1>La Planche à Repasser</H1>
+<div class="container" style="text-align: center">
+<p>Dataset</p>
+    <div class="input-field col s12">
+        <form>
 
-<svg width="960" height="400"></svg>
-<div id="legend"></div>
-<div id="option">
     <select id="dataset" type='select' onchange='updateData(value);' style='color:steelblue;font-size:1.1em;'>
         <option value='data_task_10.csv' name='10' selected='true'>Dix</option>
         <option value='data_task_100.csv' name='100'>Cent</option>
         <option value='data_task_1000.csv' name='1000'>Mille</option>
     </select>
-</div>
-
+        </form>
+    </div>
+    <p>User</p>
+    <div class="input-field col s12">
+        <form>
 <div id="user">
     <select id="data_user" type='select' onchange='updateData(value);' style='color:steelblue;font-size:1.1em;'>
         <option value="All" selected="selected">All</option>
@@ -50,13 +38,26 @@ svg {
         <option value='Joe' name='100'>Joe</option>
         <option value='Natasha' name='1000'>Natasha</option>
     </select>
+
 </div>
 
 
 
+<h2>Bar charts</h2>
 
-<svg id="barchart1" width="960" height="500"></svg>
-<svg id="barchart2" width="960" height="500"></svg>
+        <div class="row">
+
+            <div class="col s6">
+                <p>bar chart 1</p>
+                <svg width="300" height="300" id="barchart1"></svg>
+                </div>
+
+            <div class="col s6">
+                <p>bar chart 2</p>
+                <svg width="300" height="300" id="barchart2"></svg>
+            </div>
+        </div>
+
 
 <div class="row">
             <div class="col s12">
@@ -97,6 +98,7 @@ svg {
     function refresh_charts() {
         $('#barchart1').html('');
         $('#barchart2').html('');
+        $('#treemap').html('');
 
         d3.csv($("#dataset").val(), function (row) {
             var selected_user = $("#data_user").val();
