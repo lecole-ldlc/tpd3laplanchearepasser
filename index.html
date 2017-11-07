@@ -12,118 +12,119 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://d3js.org/d3-path.v1.min.js"></script>
-    <script src="https://d3js.org/d3-shape.v1.min.js"></script>
     <link rel="stylesheet" href="index.css">
-    <script>
-
-var line = d3.line();
-
-</script>
     <script src="index.js"></script>
 
 </head>
 <body>
 <H1>La Planche à Repasser</H1>
 <div class="container" style="text-align: center">
-<p>Dataset</p>
+    <p>Dataset</p>
     <div class="input-field col s12">
         <form>
 
-    <select id="dataset" type='select' onchange='updateData(value);' style='color:steelblue;font-size:1.1em;'>
-        <option value='data_task_10.csv' name='10' selected='true'>Dix</option>
-        <option value='data_task_100.csv' name='100'>Cent</option>
-        <option value='data_task_1000.csv' name='1000'>Mille</option>
-    </select>
+            <select id="dataset" type='select' onchange='updateData(value);' style='color:steelblue;font-size:1.1em;'>
+                <option value='data_task_10.csv' name='10' selected='true'>Dix</option>
+                <option value='data_task_100.csv' name='100'>Cent</option>
+                <option value='data_task_1000.csv' name='1000'>Mille</option>
+            </select>
         </form>
     </div>
     <p>User</p>
     <div class="input-field col s12">
         <form>
-<div id="user">
-    <select id="data_user" type='select' onchange='updateData(value);' style='color:steelblue;font-size:1.1em;'>
-        <option value="All" selected="selected">All</option>
-        <option value='Mike' name='10' selected='true'>Mike</option>
-        <option value='Joe' name='100'>Joe</option>
-        <option value='Natasha' name='1000'>Natasha</option>
-    </select>
+            <div id="user">
+                <select id="data_user" type='select' onchange='updateData(value);'
+                        style='color:steelblue;font-size:1.1em;'>
+                    <option value="All" selected="selected">All</option>
+                    <option value='Mike' name='10' selected='true'>Mike</option>
+                    <option value='Joe' name='100'>Joe</option>
+                    <option value='Natasha' name='1000'>Natasha</option>
+                </select>
 
-</div>
+            </div>
 
 
+            <h2>Bar charts</h2>
 
-<h2>Bar charts</h2>
+            <div class="row">
 
-        <div class="row">
-
-            <div class="col s6">
-                <p>bar chart 1</p>
-                <svg width="300" height="300" id="barchart1"></svg>
+                <div class="col s6">
+                    <p>bar chart 1</p>
+                    <svg width="300" height="300" id="barchart1"></svg>
                 </div>
 
-            <div class="col s6">
-                <p>bar chart 2</p>
-                <svg width="300" height="300" id="barchart2"></svg>
+                <div class="col s6">
+                    <p>bar chart 2</p>
+                    <svg width="300" height="300" id="barchart2"></svg>
+                </div>
             </div>
-        </div>
-
-
-<div class="row">
-            <div class="col s12">
-                <h2>Treemap</h2>
-                <style>
-                    .axis .domain {
-
-                    }
-                    form {
-                        font-family: "Helvetica Neue", Marker Felt, fantasy;
-                    }
-                    svg {
-                        font: 10px sans-serif;
-                    }
-                    .legend {
-                        font-size: 12px;
-                    }
-                    rect {
-                        stroke-width: 2;
-                    }
-                </style>
-                <svg id="treemap" width="960" height="400"></svg>
-
-
-            </div>
-        </div>
 
 
             <div class="row">
-            <div class="col s12">
-                <h2>Donuts</h2>
-                <style>
-                    .axis .domain {
+                <div class="col s12">
+                    <h2>Treemap</h2>
+                    <style>
+                        .axis .domain {
 
-                    }
-                    form {
-                        font-family: "Helvetica Neue", Marker Felt, fantasy;
-                    }
-                    svg {
-                        font: 10px sans-serif;
-                    }
-                    .legend {
-                        font-size: 12px;
-                    }
-                    rect {
-                        stroke-width: 2;
-                    }
-                </style>
-                <svg id="donut-charts" width="960" height="500"></svg>
+                        }
+
+                        form {
+                            font-family: "Helvetica Neue", Marker Felt, fantasy;
+                        }
+
+                        svg {
+                            font: 10px sans-serif;
+                        }
+
+                        .legend {
+                            font-size: 12px;
+                        }
+
+                        rect {
+                            stroke-width: 2;
+                        }
+                    </style>
+                    <svg id="treemap" width="960" height="400"></svg>
 
 
+                </div>
             </div>
-        </div>
+
+
+            <div class="row">
+                <div class="col s12">
+                    <h2>Donuts</h2>
+                    <style>
+                        .axis .domain {
+
+                        }
+
+                        form {
+                            font-family: "Helvetica Neue", Marker Felt, fantasy;
+                        }
+
+                        svg {
+                            font: 10px sans-serif;
+                        }
+
+                        .legend {
+                            font-size: 12px;
+                        }
+
+                        rect {
+                            stroke-width: 2;
+                        }
+                    </style>
+                    <div id="donut-charts"></div>
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
-</html>
-
-
 
 
 <script>
@@ -143,8 +144,8 @@ var line = d3.line();
             console.log(data);
             draw_bar_chart(data, '#barchart1');
             draw_bar_chart2(data, '#barchart2');
-            generate_tree(data,'#treemap');
-            donutChart(data,'#donut-charts');
+            generate_tree(data, '#treemap');
+            donutChart(data, '#donut-charts');
 
         });
     }
@@ -227,6 +228,7 @@ var line = d3.line();
             .attr("class", "axis")
             .call(d3.axisLeft(y).ticks(null, "s"))
     }
+
     function draw_bar_chart2(data, element) {
 // Chart initialization
         console.log(d3.select(element));
@@ -298,6 +300,7 @@ var line = d3.line();
             .attr("class", "axis")
             .call(d3.axisLeft(y).ticks(null, "s"))
     }
+
     $(function () {
         refresh_charts();
     });
@@ -305,192 +308,188 @@ var line = d3.line();
 </script>
 
 
-
-
-
-
-
-
-
-
-
-
-
 <script>
 
-     function generate_tree(data, element) {
-         // Initialize SV
-         //var user = $('#user').val();
-         $("#treemap").html("");
-         var svg = d3.select(element),
-             margin = {top: 20, right: 20, bottom: 30, left: 40},
-             width = +svg.attr("width") - margin.left - margin.right,
-             height = +svg.attr("height") - margin.top - margin.bottom,
-             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    function generate_tree(data, element) {
+        // Initialize SV
+        //var user = $('#user').val();
+        $("#treemap").html("");
+        var svg = d3.select(element),
+            margin = {top: 20, right: 20, bottom: 30, left: 40},
+            width = +svg.attr("width") - margin.left - margin.right,
+            height = +svg.attr("height") - margin.top - margin.bottom,
+            g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-         // Color scale for categories
-         var color = d3.scaleOrdinal(d3.schemeCategory10);
+        // Color scale for categories
+        var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-         // Prepare aggregation
-         var nest = d3.nest()
-             .key(function (d) {
-                 return d.priority;
-             }) // First we aggregate by prority
-             .key(function (d) {
-                 return d.status;
-             }) // Then by status
-             .rollup(function (leaves) {
-                 return {
-                     "total_cpt": leaves.length, // Compute the number of tasks in each groupe
-                     // Compute the total time associated with the tasks in this group
-                     "total_time": d3.sum(leaves, function (d) {
-                         return parseFloat(d.time);
-                     })
-                 }
-             })
+        // Prepare aggregation
+        var nest = d3.nest()
+            .key(function (d) {
+                return d.priority;
+            }) // First we aggregate by prority
+            .key(function (d) {
+                return d.status;
+            }) // Then by status
+            .rollup(function (leaves) {
+                return {
+                    "total_cpt": leaves.length, // Compute the number of tasks in each groupe
+                    // Compute the total time associated with the tasks in this group
+                    "total_time": d3.sum(leaves, function (d) {
+                        return parseFloat(d.time);
+                    })
+                }
+            })
 
-         // Prepare treemap
-         var treemap = d3.treemap()
-             .size([width, height])
-             .padding(1)
-             .round(true);
+        // Prepare treemap
+        var treemap = d3.treemap()
+            .size([width, height])
+            .padding(1)
+            .round(true);
 
-         // Load data
-         d3.csv($("#dataset").val(), function (row) {
-             // Convert our data structure into a tree structure
-             var root = d3.hierarchy({
-                 values: nest.entries(data)
-             }, function (d) {
-                 return d.values;
-             })
-             // This create a unique identifier of each leaf
-                 .eachBefore(function (d) {
-                     d.data.id = (d.parent ? d.parent.data.id + "." : "") + (d.data.key ? d.data.key : "");
-                 })
-                 // This is the value that will be used to draw the rectangles
-                 .sum(function (d) {
-                     if (d.value) {
-                         return d.value.total_time;
-                     }
-                 })
-                 // This is to display first the bigger rectangles
-                 .sort(function (a, b) {
-                     return b.value.total_time - a.value.total_time;
-                 });
-             //console.log(root)
+        // Load data
+        d3.csv($("#dataset").val(), function (row) {
+            // Convert our data structure into a tree structure
+            var root = d3.hierarchy({
+                values: nest.entries(data)
+            }, function (d) {
+                return d.values;
+            })
+            // This create a unique identifier of each leaf
+                .eachBefore(function (d) {
+                    d.data.id = (d.parent ? d.parent.data.id + "." : "") + (d.data.key ? d.data.key : "");
+                })
+                // This is the value that will be used to draw the rectangles
+                .sum(function (d) {
+                    if (d.value) {
+                        return d.value.total_time;
+                    }
+                })
+                // This is to display first the bigger rectangles
+                .sort(function (a, b) {
+                    return b.value.total_time - a.value.total_time;
+                });
+            //console.log(root)
 
-             // Do generate the treemap
-             treemap(root);
+            // Do generate the treemap
+            treemap(root);
 
-             // Prepare each rectangle
-             var cell = g.selectAll("g")
-             // We do not draw the priority rectangles, only the leaves of the tree
-                 .data(root.leaves())
-                 .enter().append("g")
-                 // Use x0 and y0 generated by the treemap function
-                 .attr("transform", function (d) {
-                     return "translate(" + d.x0 + "," + d.y0 + ")";
-                 });
+            // Prepare each rectangle
+            var cell = g.selectAll("g")
+            // We do not draw the priority rectangles, only the leaves of the tree
+                .data(root.leaves())
+                .enter().append("g")
+                // Use x0 and y0 generated by the treemap function
+                .attr("transform", function (d) {
+                    return "translate(" + d.x0 + "," + d.y0 + ")";
+                });
 
-             // Draw the rectangle
-             cell.append("rect")
-                 .attr("id", function (d) {
-                     return d.data.id;
-                 })
-                 .attr("width", function (d) {
-                     return d.x1 - d.x0;
-                 })
-                 .attr("height", function (d) {
-                     return d.y1 - d.y0;
-                 })
-                 // Use the parent attribute to set the color
-                 .attr("fill", function (d) {
-                     return color(d.parent.data.key);
-                 });
+            // Draw the rectangle
+            cell.append("rect")
+                .attr("id", function (d) {
+                    return d.data.id;
+                })
+                .attr("width", function (d) {
+                    return d.x1 - d.x0;
+                })
+                .attr("height", function (d) {
+                    return d.y1 - d.y0;
+                })
+                // Use the parent attribute to set the color
+                .attr("fill", function (d) {
+                    return color(d.parent.data.key);
+                });
 
-             // Draw the text (use a clipping path to deal with long strings)
-             cell.append("clipPath")
-                 .attr("id", function (d) {
-                     return "clip-" + d.data.id;
-                 })
-                 .append("use")
-                 .attr("xlink:href", function (d) {
-                     return "#" + d.data.id;
-                 });
-             cell.append("text")
-                 .attr("clip-path", function (d) {
-                     return "url(#clip-" + d.data.id + ")";
-                 })
-                 .text(function (d) {
-                     return d.data.key;
-                 })
-                 .attr("x", 4)
-                 .attr("y", 10);
+            // Draw the text (use a clipping path to deal with long strings)
+            cell.append("clipPath")
+                .attr("id", function (d) {
+                    return "clip-" + d.data.id;
+                })
+                .append("use")
+                .attr("xlink:href", function (d) {
+                    return "#" + d.data.id;
+                });
+            cell.append("text")
+                .attr("clip-path", function (d) {
+                    return "url(#clip-" + d.data.id + ")";
+                })
+                .text(function (d) {
+                    return d.data.key;
+                })
+                .attr("x", 4)
+                .attr("y", 10);
 
-             // Append a title (shown on mouse hover)
-             cell.append("title")
-                 .text(function (d) {
-                     return "Total time : " + d.data.value.total_time;
-                 });
-             var heightL = 100;
-             var svgLeg = d3.select("#legend").append("svg")
-                 .attr("width", width)
-                 .attr("height", heightL)
+            // Append a title (shown on mouse hover)
+            cell.append("title")
+                .text(function (d) {
+                    return "Total time : " + d.data.value.total_time;
+                });
+            var heightL = 100;
+            var svgLeg = d3.select("#legend").append("svg")
+                .attr("width", width)
+                .attr("height", heightL)
 
-             // Draw the legend
-             var legendRectSize = 18;
-             var legendSpacing = 4;
-             var legend = svg.selectAll('.legend')
-                 .data(color.domain())
-                 .enter()
-                 .append('g')
-                 .attr('class', 'legend')
-                 .attr('transform', function (d, i) {
-                     var offset = 20 * color.domain().length / 2;
-                     var horz = 30 + i * 100 + 10;
-                     var vert = height + legendRectSize + 10;
-                     //vert = 0;
-                     //horz = 0;
-                     return 'translate(' + horz + ',' + vert + ')';
-                 });
+            // Draw the legend
+            var legendRectSize = 18;
+            var legendSpacing = 4;
+            var legend = svg.selectAll('.legend')
+                .data(color.domain())
+                .enter()
+                .append('g')
+                .attr('class', 'legend')
+                .attr('transform', function (d, i) {
+                    var offset = 20 * color.domain().length / 2;
+                    var horz = 30 + i * 100 + 10;
+                    var vert = height + legendRectSize + 10;
+                    //vert = 0;
+                    //horz = 0;
+                    return 'translate(' + horz + ',' + vert + ')';
+                });
 
-             // These are the rectangles
-             legend.append('rect')
-                 .attr('width', legendRectSize)
-                 .attr('height', legendRectSize)
-                 .style('fill', color)
-                 .style('stroke', color);
+            // These are the rectangles
+            legend.append('rect')
+                .attr('width', legendRectSize)
+                .attr('height', legendRectSize)
+                .style('fill', color)
+                .style('stroke', color);
 
-             // These are the texts
-             legend.append('text')
-                 .attr('x', legendRectSize + 5)
-                 .attr('y', 10)
-                 .text(function (d) {
-                     return d
-                 })
+            // These are the texts
+            legend.append('text')
+                .attr('x', legendRectSize + 5)
+                .attr('y', 10)
+                .text(function (d) {
+                    return d
+                })
 
-         });
-     }
+        });
+    }
 
 </script>
 
 <script>
 
-    var donut = donutChart()
-        .width(960)
-        .height(500)
-        .transTime(750) // length of transitions in ms
-        .cornerRadius(3) // sets how rounded the corners are on each slice
-        .padAngle(0.015) // effectively dictates the gap between slices
-        .variable('time')
-        .category('who');
+    $(function () {
+        d3.csv($('#dataset').val(), function (error, data) {
+            if (error) throw error;
 
-        d3.csv($('#dataset').val(), function (data) {
+            var donut = donutChart()
+                .width(900)
+                .height(500)
+                .transTime(750) // length of transitions in ms
+                .cornerRadius(3) // sets how rounded the corners are on each slice
+                .padAngle(0.015) // effectively dictates the gap between slices
+                .variable('time')
+                .category('priority')
+                .data(data);
+
+            //donut(d3.select("#donut-charts"));
             d3.select('#donut-charts')
                 .call(donut); // draw chart in div
 
+        });
     });
-        refresh_charts();
+refresh_charts();
 
 </script>
 
+</html>
