@@ -38,7 +38,6 @@ function donutChart() {
                 .outerRadius(radius * 0.9)
                 .innerRadius(radius * 0.9);
             // ===========================================================================================
-
             // ===========================================================================================
             // append the svg object to the selection
             var svg = selection.append('svg')
