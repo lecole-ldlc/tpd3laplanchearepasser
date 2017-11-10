@@ -25,7 +25,7 @@
         <form>
 
             <select id="dataset" type='select' onchange='updateData(value);' style='color:steelblue;font-size:1.1em;'>
-                <option value='data_task_10.csv' name='10' selected='true'>Dix</option>
+                <option value='data_task_10.csv' name='10'>Dix</option>
                 <option value='data_task_100.csv' name='100'>Cent</option>
                 <option value='data_task_1000.csv' name='1000'>Mille</option>
             </select>
@@ -37,8 +37,8 @@
             <div id="user">
                 <select id="data_user" type='select' onchange='updateData(value);'
                         style='color:steelblue;font-size:1.1em;'>
-                    <option value="All" selected="selected">All</option>
-                    <option value='Mike' name='10' selected='true'>Mike</option>
+                    <option value="All" selected="true">All</option>
+                    <option value='Mike' name='10'>Mike</option>
                     <option value='Joe' name='100'>Joe</option>
                     <option value='Natasha' name='1000'>Natasha</option>
                 </select>
@@ -471,7 +471,14 @@
 
     $(function () {
         d3.csv($('#dataset').val(), function (error, data) {
+
             if (error) throw error;
+
+            var nested_data = d3.nest()
+            .key(function (d) {
+                return d.who;
+            })
+            .entries(data);
 
             var donut = donutChart()
         .width(960)
@@ -487,7 +494,7 @@
                 .datum(data)
                 .call(donut); // draw chart in div
 
-console.log(data)
+console.log(nested_data)
 
         });
     });

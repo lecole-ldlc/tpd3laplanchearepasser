@@ -7,8 +7,8 @@ function donutChart() {
         category, // compare data by
         padAngle, // effectively dictates the gap between slices
         floatFormat = d3.format('.4r'),
-        cornerRadius, // sets how rounded the corners are on each slice
-        percentFormat = d3.format(',.2%');
+        cornerRadius; // sets how rounded the corners are on each slice
+        //percentFormat = d3.format('');
 
     function chart(selection) {
         selection.each(function (data) {
@@ -74,7 +74,7 @@ function donutChart() {
                 .attr('dy', '.35em')
                 .html(function (d) {
                     // add "key: value" for given category. Number inside tspan is bolded in stylesheet.
-                    return d.data[category] + ': <tspan>' + percentFormat(d.data[variable]) + '</tspan>';
+                    return d.data[category] + ': <tspan>' + (d.data[variable]) + '</tspan>';
                 })
                 .attr('transform', function (d) {
 
@@ -157,7 +157,7 @@ function donutChart() {
                 for (var key in data.data) {
 
                     // if value is a number, format it as a percentage
-                    var value = (!isNaN(parseFloat(data.data[key]))) ? percentFormat(data.data[key]) : data.data[key];
+                    var value = (!isNaN(parseFloat(data.data[key]))) ? (data.data[key]) : data.data[key];
 
                     // leave off 'dy' attr for first tspan so the 'dy' attr on text element works. The 'dy' attr on
                     // tspan effectively imitates a line break.
