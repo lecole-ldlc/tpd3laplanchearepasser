@@ -17,6 +17,7 @@
 
 </head>
 <body>
+<div class="container" style="text-align: center">
 <H1>La Planche à Repasser</H1>
 <div class="container" style="text-align: center">
     <p>Dataset</p>
@@ -46,19 +47,18 @@
 
 
             <h2>Bar charts</h2>
-
             <div class="row">
-
-                <div class="col s6">
-                    <p>bar chart 1</p>
-                    <svg width="300" height="300" id="barchart1"></svg>
-                </div>
-
-                <div class="col s6">
-                    <p>bar chart 2</p>
-                    <svg width="300" height="300" id="barchart2"></svg>
-                </div>
+            <div class="col-xs-6">
+                <p>Nombre de tâches par statut</p>
+                <svg width="300" height="300" id="barchart2"></svg>
             </div>
+
+            <div class="col-xs-6">
+                <p>Nombre de tâches par priorité</p>
+                <svg width="300" height="300" id="barchart1"></svg>
+            </div>
+        </div>
+
 
 
             <div class="row">
@@ -123,6 +123,7 @@
             </div>
         </form>
     </div>
+</div>
 </div>
 </body>
 
@@ -485,6 +486,8 @@
             d3.select('#donut-charts')
                 .datum(data)
                 .call(donut); // draw chart in div
+
+console.log(data)
 
         });
     });
